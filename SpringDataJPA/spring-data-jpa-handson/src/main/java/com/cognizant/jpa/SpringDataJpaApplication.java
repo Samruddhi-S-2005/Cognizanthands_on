@@ -26,12 +26,12 @@ public class SpringDataJpaApplication {
         // handsOn9DeleteCountry();
 
         // Future Hands-ons
-        // exercise5QueryMethods();
+        exercise5QueryMethods();
         // exercise6Mapping();
         // exercise7HQL();
         // exercise8NativeQueries();
 
-        handsOn9DeleteCountry();
+        //handsOn9DeleteCountry();
     }
 
     // =========================================================
@@ -131,13 +131,27 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
+    // =========================================================
     // Exercise 5 - Query Methods
     // =========================================================
     public static void exercise5QueryMethods() {
 
-        System.out.println("\n===== Exercise 5 : Query Methods =====\n");
+        System.out.println("\n===== Exercise 5 : Query Methods =====");
 
-        // To be implemented
+        System.out.println("\nCountries containing 'ou':");
+
+        countryService.searchCountries("ou")
+                .forEach(System.out::println);
+
+        System.out.println("\nCountries containing 'ou' (Sorted):");
+
+        countryService.searchCountriesSorted("ou")
+                .forEach(System.out::println);
+
+        System.out.println("\nCountries starting with 'Z':");
+
+        countryService.getCountriesStartingWith("Z")
+                .forEach(System.out::println);
     }
 
     // =========================================================

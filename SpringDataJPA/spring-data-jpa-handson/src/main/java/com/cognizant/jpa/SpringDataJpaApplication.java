@@ -5,8 +5,6 @@ import com.cognizant.jpa.service.CountryService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.List;
-
 public class SpringDataJpaApplication {
 
     public static void main(String[] args) {
@@ -17,10 +15,8 @@ public class SpringDataJpaApplication {
         CountryService countryService =
                 context.getBean(CountryService.class);
 
-        List<Country> countries = countryService.getAllCountries();
+        Country country = countryService.getCountry("IN");
 
-        for (Country country : countries) {
-            System.out.println(country);
-        }
+        System.out.println(country);
     }
 }

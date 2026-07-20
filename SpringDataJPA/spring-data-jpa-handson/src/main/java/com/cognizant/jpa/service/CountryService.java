@@ -28,4 +28,15 @@ public class CountryService {
     public void addCountry(Country country) {
         countryRepository.save(country);
     }
+
+    @Transactional
+    public void updateCountry(String code, String newName) {
+
+        Country country = countryRepository.findByCode(code);
+
+        if (country != null) {
+            country.setName(newName);
+            countryRepository.save(country);
+        }
+    }
 }

@@ -15,8 +15,12 @@ public class SpringDataJpaApplication {
         CountryService countryService =
                 context.getBean(CountryService.class);
 
-        Country country = countryService.getCountry("IN");
+        Country country = new Country("BR", "Brazil");
 
-        System.out.println(country);
+        countryService.addCountry(country);
+
+        System.out.println("Country Added Successfully!");
+
+        System.out.println(countryService.getCountry("BR"));
     }
 }

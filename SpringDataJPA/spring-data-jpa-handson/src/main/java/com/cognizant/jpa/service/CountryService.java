@@ -23,4 +23,9 @@ public class CountryService {
     public Country getCountry(String code) {
         return countryRepository.findByCode(code);
     }
+
+    @Transactional
+    public void addCountry(Country country) {
+        countryRepository.save(country);
+    }
 }

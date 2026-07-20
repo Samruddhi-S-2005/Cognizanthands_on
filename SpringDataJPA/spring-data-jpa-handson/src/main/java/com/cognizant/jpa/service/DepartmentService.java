@@ -12,21 +12,8 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Department get(int id) {
-        Department department = departmentRepository.findById(id).orElse(null);
-
-        if (department != null) {
-            department.getEmployeeList().size();   // Initialize the collection
-        }
-
-        return department;
+        return departmentRepository.getDepartment(id);
     }
-
-    @Transactional
-    public void save(Department department) {
-        departmentRepository.save(department);
-    }
-
-
 }

@@ -12,9 +12,9 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Employee get(int id) {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeRepository.getEmployee(id);
     }
 
     @Transactional

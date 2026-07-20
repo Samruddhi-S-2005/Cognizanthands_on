@@ -1,7 +1,6 @@
 package com.cognizant.jpa.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -16,7 +15,7 @@ public class Department {
     @Column(name = "dp_name")
     private String name;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private List<Employee> employeeList;
 
     public Department() {

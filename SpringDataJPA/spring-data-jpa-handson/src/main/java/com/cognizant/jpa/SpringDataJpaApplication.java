@@ -3,9 +3,11 @@ package com.cognizant.jpa;
 import com.cognizant.jpa.model.Country;
 import com.cognizant.jpa.model.Department;
 import com.cognizant.jpa.model.Employee;
+import com.cognizant.jpa.model.Skill;
 import com.cognizant.jpa.service.CountryService;
 import com.cognizant.jpa.service.DepartmentService;
 import com.cognizant.jpa.service.EmployeeService;
+import com.cognizant.jpa.service.SkillService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,20 +25,18 @@ public class SpringDataJpaApplication {
     private static final DepartmentService departmentService =
             context.getBean(DepartmentService.class);
 
-    public static void main(String[] args) {
+    private static final SkillService skillService =
+            context.getBean(SkillService.class);
 
-        /*
-         * Uncomment ONLY ONE exercise at a time.
-         */
+    public static void main(String[] args) {
 
         // exercise1QuickExample();
         // exercise2FindCountryByCode();
         // exercise3AddCountry();
         // exercise4UpdateCountry();
         // handsOn9DeleteCountry();
-
-        // Document 2
         // exercise5QueryMethods();
+
         exercise6Mapping();
 
         // exercise7HQL();
@@ -44,132 +44,27 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
-    // Exercise 1 - Quick Example
-    // =========================================================
-    public static void exercise1QuickExample() {
-
-        System.out.println("\n===== Exercise 1 : Quick Example =====\n");
-
-        countryService.getAllCountries()
-                .forEach(System.out::println);
-    }
-
-    // =========================================================
-    // Exercise 2 - Find Country
-    // =========================================================
-    public static void exercise2FindCountryByCode() {
-
-        System.out.println("\n===== Exercise 2 : Find Country =====\n");
-
-        System.out.println(countryService.getCountry("IN"));
-    }
-
-    // =========================================================
-    // Exercise 3 - Add Country
-    // =========================================================
-    public static void exercise3AddCountry() {
-
-        System.out.println("\n===== Exercise 3 : Add Country =====\n");
-
-        Country existing = countryService.getCountry("BR");
-
-        if (existing == null) {
-
-            Country country = new Country("BR", "Brazil");
-            countryService.addCountry(country);
-
-            System.out.println("Country added successfully.");
-
-        } else {
-
-            System.out.println("Country already exists.");
-        }
-
-        System.out.println(countryService.getCountry("BR"));
-    }
-
-    // =========================================================
-    // Exercise 4 - Update Country
-    // =========================================================
-    public static void exercise4UpdateCountry() {
-
-        System.out.println("\n===== Exercise 4 : Update Country =====\n");
-
-        System.out.println("Before Update:");
-        System.out.println(countryService.getCountry("IN"));
-
-        countryService.updateCountry("IN", "Bharat");
-
-        System.out.println();
-
-        System.out.println("After Update:");
-        System.out.println(countryService.getCountry("IN"));
-    }
-
-    // =========================================================
-    // Delete Country
-    // =========================================================
-    public static void handsOn9DeleteCountry() {
-
-        System.out.println("\n===== Delete Country =====\n");
-
-        Country existing = countryService.getCountry("BR");
-
-        if (existing == null) {
-            System.out.println("Country BR does not exist.");
-            return;
-        }
-
-        System.out.println("Before Delete:");
-        System.out.println(existing);
-
-        countryService.deleteCountry("BR");
-
-        Country deleted = countryService.getCountry("BR");
-
-        if (deleted == null)
-            System.out.println("Country deleted successfully.");
-        else
-            System.out.println("Delete failed.");
-    }
-
-    // =========================================================
-    // Exercise 5 - Query Methods
-    // =========================================================
-    public static void exercise5QueryMethods() {
-
-        System.out.println("\n===== Exercise 5 : Query Methods =====");
-
-        System.out.println("\nCountries containing 'ou'");
-
-        countryService.searchCountries("ou")
-                .forEach(System.out::println);
-
-        System.out.println("\nCountries containing 'ou' (Sorted)");
-
-        countryService.searchCountriesSorted("ou")
-                .forEach(System.out::println);
-
-        System.out.println("\nCountries starting with 'Z'");
-
-        countryService.getCountriesStartingWith("Z")
-                .forEach(System.out::println);
-    }
-
-    // =========================================================
     // Exercise 6 - O/R Mapping
     // =========================================================
+
     public static void exercise6Mapping() {
 
-        System.out.println("\n===== Exercise 6 : O/R Mapping =====\n");
+        System.out.println("\n===============================");
+        System.out.println("SPRING DATA JPA O/R MAPPING");
+        System.out.println("===============================\n");
 
-        System.out.println("----- Many-To-One Mapping -----");
+        System.out.println("========== MANY TO ONE ==========\n");
         testGetEmployee();
 
-        System.out.println("\n--------------------------------------\n");
+        System.out.println("\n=================================\n");
 
-        System.out.println("----- One-To-Many Mapping -----");
+        System.out.println("========== ONE TO MANY ==========\n");
         testGetDepartment();
+
+        System.out.println("\n=================================\n");
+
+        System.out.println("========== MANY TO MANY ==========\n");
+        testGetSkill();
     }
 
     public static void testGetEmployee() {
@@ -181,18 +76,15 @@ public class SpringDataJpaApplication {
             return;
         }
 
-        System.out.println("Employee Details");
+        System.out.println("Employee");
         System.out.println(employee);
 
-        if (employee.getDepartment() != null) {
+        System.out.println("\nDepartment");
+        System.out.println(employee.getDepartment());
 
-            System.out.println("\nDepartment Details");
-            System.out.println(employee.getDepartment());
+        System.out.println("\nSkills");
 
-        } else {
-
-            System.out.println("\nDepartment not assigned.");
-        }
+        employee.getSkillList().forEach(System.out::println);
     }
 
     public static void testGetDepartment() {
@@ -200,37 +92,75 @@ public class SpringDataJpaApplication {
         Department department = departmentService.get(1);
 
         if (department == null) {
-
             System.out.println("Department not found.");
             return;
         }
 
-        System.out.println("Department Details");
+        System.out.println("Department");
         System.out.println(department);
 
         System.out.println("\nEmployees");
 
-        department.getEmployeeList()
+        department.getEmployeeList().forEach(System.out::println);
+    }
+
+    public static void testGetSkill() {
+
+        Skill skill = skillService.get(1);
+
+        if (skill == null) {
+            System.out.println("Skill not found.");
+            return;
+        }
+
+        System.out.println("Skill");
+        System.out.println(skill);
+
+        System.out.println("\nEmployees");
+
+        skill.getEmployeeList().forEach(System.out::println);
+    }
+
+    // =========================================================
+    // Other Exercises
+    // =========================================================
+
+    public static void exercise1QuickExample() {
+        countryService.getAllCountries().forEach(System.out::println);
+    }
+
+    public static void exercise2FindCountryByCode() {
+        System.out.println(countryService.getCountry("IN"));
+    }
+
+    public static void exercise3AddCountry() {
+        Country country = new Country("BR", "Brazil");
+        countryService.addCountry(country);
+    }
+
+    public static void exercise4UpdateCountry() {
+        countryService.updateCountry("IN", "Bharat");
+    }
+
+    public static void handsOn9DeleteCountry() {
+        countryService.deleteCountry("BR");
+    }
+
+    public static void exercise5QueryMethods() {
+
+        countryService.searchCountries("ou")
+                .forEach(System.out::println);
+
+        countryService.searchCountriesSorted("ou")
+                .forEach(System.out::println);
+
+        countryService.getCountriesStartingWith("Z")
                 .forEach(System.out::println);
     }
 
-    // =========================================================
-    // Exercise 7 - HQL
-    // =========================================================
     public static void exercise7HQL() {
-
-        System.out.println("\n===== Exercise 7 : HQL =====\n");
-
-        // To be implemented
     }
 
-    // =========================================================
-    // Exercise 8 - Native Query
-    // =========================================================
     public static void exercise8NativeQueries() {
-
-        System.out.println("\n===== Exercise 8 : Native Query =====\n");
-
-        // To be implemented
     }
 }

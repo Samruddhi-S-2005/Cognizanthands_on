@@ -1,6 +1,7 @@
 package com.cognizant.jpa.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "skill")
@@ -13,6 +14,9 @@ public class Skill {
 
     @Column(name = "sk_name")
     private String name;
+
+    @ManyToMany(mappedBy = "skillList", fetch = FetchType.LAZY)
+    private List<Employee> employeeList;
 
     public Skill() {
     }
@@ -31,6 +35,14 @@ public class Skill {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
     @Override

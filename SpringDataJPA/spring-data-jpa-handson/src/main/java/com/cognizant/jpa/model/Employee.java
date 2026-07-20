@@ -1,8 +1,8 @@
 package com.cognizant.jpa.model;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -26,9 +26,17 @@ public class Employee {
     @Column(name = "em_date_of_birth")
     private Date dateOfBirth;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "em_dp_id")
     private Department department;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "employee_skill",
+            joinColumns = @JoinColumn(name = "es_em_id"),
+            inverseJoinColumns = @JoinColumn(name = "es_sk_id")
+    )
+    private List<Skill> skillList;
 
     public Employee() {
     }
@@ -79,6 +87,14 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public List<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(List<Skill> skillList) {
+        this.skillList = skillList;
     }
 
     @Override

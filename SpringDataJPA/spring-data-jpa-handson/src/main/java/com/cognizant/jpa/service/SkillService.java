@@ -12,13 +12,8 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Skill get(int id) {
-        return skillRepository.findById(id).orElse(null);
-    }
-
-    @Transactional
-    public void save(Skill skill) {
-        skillRepository.save(skill);
+        return skillRepository.getSkill(id);
     }
 }

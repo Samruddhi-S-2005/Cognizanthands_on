@@ -22,16 +22,21 @@ public class SpringDataJpaApplication {
         // exercise1QuickExample();
         // exercise2FindCountryByCode();
         // exercise3AddCountry();
-        // exercise4UpdateCountry();      // Additional Practice Exercise
+        //exercise4UpdateCountry();
+        // handsOn9DeleteCountry();
+
+        // Future Hands-ons
         // exercise5QueryMethods();
         // exercise6Mapping();
         // exercise7HQL();
         // exercise8NativeQueries();
+
+        handsOn9DeleteCountry();
     }
 
-    // ==============================
+    // =========================================================
     // Exercise 1 - Quick Example
-    // ==============================
+    // =========================================================
     public static void exercise1QuickExample() {
 
         System.out.println("\n===== Exercise 1 : Quick Example =====\n");
@@ -40,9 +45,9 @@ public class SpringDataJpaApplication {
                 .forEach(System.out::println);
     }
 
-    // ==================================
+    // =========================================================
     // Exercise 2 - Find Country by Code
-    // ==================================
+    // =========================================================
     public static void exercise2FindCountryByCode() {
 
         System.out.println("\n===== Exercise 2 : Find Country By Code =====\n");
@@ -50,9 +55,9 @@ public class SpringDataJpaApplication {
         System.out.println(countryService.getCountry("IN"));
     }
 
-    // ==========================
+    // =========================================================
     // Exercise 3 - Add Country
-    // ==========================
+    // =========================================================
     public static void exercise3AddCountry() {
 
         System.out.println("\n===== Exercise 3 : Add Country =====\n");
@@ -75,12 +80,12 @@ public class SpringDataJpaApplication {
         System.out.println(countryService.getCountry("BR"));
     }
 
-    // =================================
-    // Additional Practice - Update Country
-    // =================================
+    // =========================================================
+    // Exercise 4 - Update Country
+    // =========================================================
     public static void exercise4UpdateCountry() {
 
-        System.out.println("\n===== Update Country =====\n");
+        System.out.println("\n===== Exercise 4 : Update Country =====\n");
 
         System.out.println("Before Update:");
         System.out.println(countryService.getCountry("IN"));
@@ -93,43 +98,75 @@ public class SpringDataJpaApplication {
         System.out.println(countryService.getCountry("IN"));
     }
 
-    // =================================
+    // =========================================================
+    // Hands-on 9 - Delete Country
+    // =========================================================
+    public static void handsOn9DeleteCountry() {
+
+        System.out.println("\n===== Hands-on 9 : Delete Country =====\n");
+
+        Country existing = countryService.getCountry("BR");
+
+        if (existing == null) {
+
+            System.out.println("Country BR does not exist.");
+            return;
+        }
+
+        System.out.println("Before Delete:");
+        System.out.println(existing);
+
+        countryService.deleteCountry("BR");
+
+        Country deletedCountry = countryService.getCountry("BR");
+
+        if (deletedCountry == null) {
+
+            System.out.println("\nCountry deleted successfully.");
+
+        } else {
+
+            System.out.println("\nDelete failed.");
+        }
+    }
+
+    // =========================================================
     // Exercise 5 - Query Methods
-    // =================================
+    // =========================================================
     public static void exercise5QueryMethods() {
 
         System.out.println("\n===== Exercise 5 : Query Methods =====\n");
 
-        // We will implement this next.
+        // To be implemented
     }
 
-    // =================================
+    // =========================================================
     // Exercise 6 - Mapping
-    // =================================
+    // =========================================================
     public static void exercise6Mapping() {
 
         System.out.println("\n===== Exercise 6 : Mapping =====\n");
 
-        // We will implement this later.
+        // To be implemented
     }
 
-    // =================================
+    // =========================================================
     // Exercise 7 - HQL
-    // =================================
+    // =========================================================
     public static void exercise7HQL() {
 
         System.out.println("\n===== Exercise 7 : Hibernate Query Language =====\n");
 
-        // We will implement this later.
+        // To be implemented
     }
 
-    // =================================
+    // =========================================================
     // Exercise 8 - Native Queries
-    // =================================
+    // =========================================================
     public static void exercise8NativeQueries() {
 
         System.out.println("\n===== Exercise 8 : Native Queries =====\n");
 
-        // We will implement this later.
+        // To be implemented
     }
 }

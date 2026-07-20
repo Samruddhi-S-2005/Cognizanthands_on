@@ -54,4 +54,9 @@ public class CountryService {
     public List<Country> getCountriesStartingWith(String letter) {
         return countryRepository.findByNameStartingWith(letter);
     }
+
+    @Transactional
+    public void deleteCountry(String code) {
+        countryRepository.deleteById(code);
+    }
 }

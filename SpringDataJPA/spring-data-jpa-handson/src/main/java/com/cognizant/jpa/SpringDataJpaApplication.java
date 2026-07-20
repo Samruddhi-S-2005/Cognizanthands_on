@@ -1,7 +1,11 @@
 package com.cognizant.jpa;
 
 import com.cognizant.jpa.model.Country;
+import com.cognizant.jpa.model.Department;
+import com.cognizant.jpa.model.Employee;
 import com.cognizant.jpa.service.CountryService;
+import com.cognizant.jpa.service.DepartmentService;
+import com.cognizant.jpa.service.EmployeeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,6 +17,12 @@ public class SpringDataJpaApplication {
     private static final CountryService countryService =
             context.getBean(CountryService.class);
 
+    private static final EmployeeService employeeService =
+            context.getBean(EmployeeService.class);
+
+    private static final DepartmentService departmentService =
+            context.getBean(DepartmentService.class);
+
     public static void main(String[] args) {
 
         /*
@@ -22,16 +32,15 @@ public class SpringDataJpaApplication {
         // exercise1QuickExample();
         // exercise2FindCountryByCode();
         // exercise3AddCountry();
-        //exercise4UpdateCountry();
+        // exercise4UpdateCountry();
         // handsOn9DeleteCountry();
 
-        // Future Hands-ons
-        exercise5QueryMethods();
-        // exercise6Mapping();
+        // Document 2
+        // exercise5QueryMethods();
+        exercise6Mapping();
+
         // exercise7HQL();
         // exercise8NativeQueries();
-
-        //handsOn9DeleteCountry();
     }
 
     // =========================================================
@@ -46,11 +55,11 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
-    // Exercise 2 - Find Country by Code
+    // Exercise 2 - Find Country
     // =========================================================
     public static void exercise2FindCountryByCode() {
 
-        System.out.println("\n===== Exercise 2 : Find Country By Code =====\n");
+        System.out.println("\n===== Exercise 2 : Find Country =====\n");
 
         System.out.println(countryService.getCountry("IN"));
     }
@@ -74,7 +83,6 @@ public class SpringDataJpaApplication {
         } else {
 
             System.out.println("Country already exists.");
-
         }
 
         System.out.println(countryService.getCountry("BR"));
@@ -99,16 +107,15 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
-    // Hands-on 9 - Delete Country
+    // Delete Country
     // =========================================================
     public static void handsOn9DeleteCountry() {
 
-        System.out.println("\n===== Hands-on 9 : Delete Country =====\n");
+        System.out.println("\n===== Delete Country =====\n");
 
         Country existing = countryService.getCountry("BR");
 
         if (existing == null) {
-
             System.out.println("Country BR does not exist.");
             return;
         }
@@ -118,19 +125,14 @@ public class SpringDataJpaApplication {
 
         countryService.deleteCountry("BR");
 
-        Country deletedCountry = countryService.getCountry("BR");
+        Country deleted = countryService.getCountry("BR");
 
-        if (deletedCountry == null) {
-
-            System.out.println("\nCountry deleted successfully.");
-
-        } else {
-
-            System.out.println("\nDelete failed.");
-        }
+        if (deleted == null)
+            System.out.println("Country deleted successfully.");
+        else
+            System.out.println("Delete failed.");
     }
 
-    // =========================================================
     // =========================================================
     // Exercise 5 - Query Methods
     // =========================================================
@@ -138,30 +140,99 @@ public class SpringDataJpaApplication {
 
         System.out.println("\n===== Exercise 5 : Query Methods =====");
 
-        System.out.println("\nCountries containing 'ou':");
+        System.out.println("\nCountries containing 'ou'");
 
         countryService.searchCountries("ou")
                 .forEach(System.out::println);
 
-        System.out.println("\nCountries containing 'ou' (Sorted):");
+        System.out.println("\nCountries containing 'ou' (Sorted)");
 
         countryService.searchCountriesSorted("ou")
                 .forEach(System.out::println);
 
-        System.out.println("\nCountries starting with 'Z':");
+        System.out.println("\nCountries starting with 'Z'");
 
         countryService.getCountriesStartingWith("Z")
                 .forEach(System.out::println);
     }
 
     // =========================================================
-    // Exercise 6 - Mapping
+    // Exercise 6 - Many-to-One Mapping
     // =========================================================
     public static void exercise6Mapping() {
 
-        System.out.println("\n===== Exercise 6 : Mapping =====\n");
+        System.out.println("\n===== Exercise 6 : Many-To-One Mapping =====\n");
 
-        // To be implemented
+        testGetEmployee();
+
+        testAddEmployee();
+
+        testUpdateEmployee();
+    }
+
+    public static void testGetEmployee() {
+
+        Employee employee = employeeService.get(1);
+
+        if (employee == null) {
+            System.out.println("Employee not found.");
+            return;
+        }
+
+        System.out.println("Employee Details");
+        System.out.println(employee);
+
+        Department department = employee.getDepartment();
+
+        if (department != null) {
+            System.out.println("\nDepartment Details");
+            System.out.println(department);
+        } else {
+            System.out.println("\nDepartment not assigned.");
+        }
+    }
+
+    public static void testAddEmployee() {
+
+        System.out.println("\n===== Add Employee =====\n");
+
+        Department department = departmentService.get(1);
+
+        Employee employee = new Employee();
+        employee.setName("Robert");
+        employee.setSalary(60000);
+        employee.setPermanent(true);
+
+        employee.setDateOfBirth(
+                java.sql.Date.valueOf("1997-08-15"));
+
+        employee.setDepartment(department);
+
+        employeeService.addEmployee(employee);
+
+        System.out.println("Employee added successfully.");
+    }
+
+
+    public static void testUpdateEmployee() {
+
+        System.out.println("\n===== Update Employee =====\n");
+
+        Employee employee = employeeService.get(1);
+
+        if (employee == null) {
+            System.out.println("Employee not found.");
+            return;
+        }
+
+        employee.setSalary(70000);
+
+        Department department = departmentService.get(2);
+        employee.setDepartment(department);
+
+        employeeService.updateEmployee(employee);
+
+        System.out.println("Employee updated successfully.");
     }
 
     // =========================================================
@@ -169,7 +240,7 @@ public class SpringDataJpaApplication {
     // =========================================================
     public static void exercise7HQL() {
 
-        System.out.println("\n===== Exercise 7 : Hibernate Query Language =====\n");
+        System.out.println("\n===== Exercise 7 : HQL =====\n");
 
         // To be implemented
     }

@@ -26,6 +26,10 @@ public class Employee {
     @Column(name = "em_date_of_birth")
     private Date dateOfBirth;
 
+    @ManyToOne
+    @JoinColumn(name = "em_dp_id")
+    private Department department;
+
     public Employee() {
     }
 
@@ -67,6 +71,14 @@ public class Employee {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override

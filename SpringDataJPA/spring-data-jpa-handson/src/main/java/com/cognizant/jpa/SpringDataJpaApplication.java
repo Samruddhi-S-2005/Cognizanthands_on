@@ -157,17 +157,19 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
-    // Exercise 6 - Many-to-One Mapping
+    // Exercise 6 - O/R Mapping
     // =========================================================
     public static void exercise6Mapping() {
 
-        System.out.println("\n===== Exercise 6 : Many-To-One Mapping =====\n");
+        System.out.println("\n===== Exercise 6 : O/R Mapping =====\n");
 
+        System.out.println("----- Many-To-One Mapping -----");
         testGetEmployee();
 
-        testAddEmployee();
+        System.out.println("\n--------------------------------------\n");
 
-        testUpdateEmployee();
+        System.out.println("----- One-To-Many Mapping -----");
+        testGetDepartment();
     }
 
     public static void testGetEmployee() {
@@ -182,57 +184,34 @@ public class SpringDataJpaApplication {
         System.out.println("Employee Details");
         System.out.println(employee);
 
-        Department department = employee.getDepartment();
+        if (employee.getDepartment() != null) {
 
-        if (department != null) {
             System.out.println("\nDepartment Details");
-            System.out.println(department);
+            System.out.println(employee.getDepartment());
+
         } else {
+
             System.out.println("\nDepartment not assigned.");
         }
     }
 
-    public static void testAddEmployee() {
-
-        System.out.println("\n===== Add Employee =====\n");
+    public static void testGetDepartment() {
 
         Department department = departmentService.get(1);
 
-        Employee employee = new Employee();
-        employee.setName("Robert");
-        employee.setSalary(60000);
-        employee.setPermanent(true);
+        if (department == null) {
 
-        employee.setDateOfBirth(
-                java.sql.Date.valueOf("1997-08-15"));
-
-        employee.setDepartment(department);
-
-        employeeService.addEmployee(employee);
-
-        System.out.println("Employee added successfully.");
-    }
-
-
-    public static void testUpdateEmployee() {
-
-        System.out.println("\n===== Update Employee =====\n");
-
-        Employee employee = employeeService.get(1);
-
-        if (employee == null) {
-            System.out.println("Employee not found.");
+            System.out.println("Department not found.");
             return;
         }
 
-        employee.setSalary(70000);
+        System.out.println("Department Details");
+        System.out.println(department);
 
-        Department department = departmentService.get(2);
-        employee.setDepartment(department);
+        System.out.println("\nEmployees");
 
-        employeeService.updateEmployee(employee);
-
-        System.out.println("Employee updated successfully.");
+        department.getEmployeeList()
+                .forEach(System.out::println);
     }
 
     // =========================================================
@@ -246,11 +225,11 @@ public class SpringDataJpaApplication {
     }
 
     // =========================================================
-    // Exercise 8 - Native Queries
+    // Exercise 8 - Native Query
     // =========================================================
     public static void exercise8NativeQueries() {
 
-        System.out.println("\n===== Exercise 8 : Native Queries =====\n");
+        System.out.println("\n===== Exercise 8 : Native Query =====\n");
 
         // To be implemented
     }

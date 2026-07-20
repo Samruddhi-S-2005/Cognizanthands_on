@@ -14,11 +14,19 @@ public class DepartmentService {
 
     @Transactional
     public Department get(int id) {
-        return departmentRepository.findById(id).orElse(null);
+        Department department = departmentRepository.findById(id).orElse(null);
+
+        if (department != null) {
+            department.getEmployeeList().size();   // Initialize the collection
+        }
+
+        return department;
     }
 
     @Transactional
     public void save(Department department) {
         departmentRepository.save(department);
     }
+
+
 }

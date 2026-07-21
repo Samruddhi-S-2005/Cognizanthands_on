@@ -17,4 +17,10 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
             """)
     Department getDepartment(@Param("id") int id);
 
+    @Query("""
+            SELECT AVG(e.salary)
+            FROM Employee e
+            WHERE e.department.id = :id
+            """)
+    Double getAverageSalary(@Param("id") int id);
 }

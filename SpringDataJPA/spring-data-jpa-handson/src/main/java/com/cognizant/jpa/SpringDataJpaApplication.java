@@ -39,7 +39,8 @@ public class SpringDataJpaApplication {
 
         //exercise6Mapping();
 
-        exercise7HQL();
+        //exercise7HQL();
+        exercise7AverageSalary();
         // exercise8NativeQueries();
     }
 
@@ -175,6 +176,18 @@ public class SpringDataJpaApplication {
 
             System.out.println("-------------------------------------");
         });
+    }
+
+    public static void exercise7AverageSalary() {
+
+        System.out.println("\n===== HQL : Average Salary =====\n");
+
+        int departmentId = 1;
+
+        Double averageSalary = departmentService.getAverageSalary(departmentId);
+
+        System.out.println("Department ID : " + departmentId);
+        System.out.println("Average Salary : " + averageSalary);
     }
 
     public static void exercise8NativeQueries() {

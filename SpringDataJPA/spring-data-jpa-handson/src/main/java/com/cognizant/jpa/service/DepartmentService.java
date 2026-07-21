@@ -16,4 +16,9 @@ public class DepartmentService {
     public Department get(int id) {
         return departmentRepository.getDepartment(id);
     }
+
+    @Transactional(readOnly = true)
+    public Double getAverageSalary(int departmentId) {
+        return departmentRepository.getAverageSalary(departmentId);
+    }
 }

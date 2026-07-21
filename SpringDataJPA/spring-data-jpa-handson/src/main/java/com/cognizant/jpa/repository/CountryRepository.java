@@ -2,6 +2,7 @@ package com.cognizant.jpa.repository;
 
 import com.cognizant.jpa.model.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface CountryRepository extends JpaRepository<Country, String> {
     List<Country> findByNameContainingOrderByNameAsc(String text);
 
     List<Country> findByNameStartingWith(String letter);
+
+    @Query(value = "SELECT * FROM country", nativeQuery = true)
+    List<Country> getAllCountriesNative();
 }

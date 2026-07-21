@@ -40,8 +40,8 @@ public class SpringDataJpaApplication {
         //exercise6Mapping();
 
         //exercise7HQL();
-        exercise7AverageSalary();
-        // exercise8NativeQueries();
+        //exercise7AverageSalary();
+        exercise8NativeQueries();
     }
 
     // =========================================================
@@ -191,5 +191,10 @@ public class SpringDataJpaApplication {
     }
 
     public static void exercise8NativeQueries() {
+
+        System.out.println("\n===== NATIVE QUERY =====\n");
+
+        countryService.getAllCountriesNative()
+                .forEach(System.out::println);
     }
 }

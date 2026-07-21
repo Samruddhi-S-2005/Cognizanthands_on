@@ -14,12 +14,12 @@ public class CountryService {
     @Autowired
     private CountryRepository countryRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Country> getAllCountries() {
         return countryRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Country getCountry(String code) {
         return countryRepository.findByCode(code);
     }
@@ -30,33 +30,36 @@ public class CountryService {
     }
 
     @Transactional
-    public void updateCountry(String code, String newName) {
-
+    public void updateCountry(String code, String name) {
         Country country = countryRepository.findByCode(code);
-
         if (country != null) {
-            country.setName(newName);
+            country.setName(name);
             countryRepository.save(country);
         }
     }
 
     @Transactional
+    public void deleteCountry(String code) {
+        countryRepository.deleteById(code);
+    }
+
+    @Transactional(readOnly = true)
     public List<Country> searchCountries(String text) {
         return countryRepository.findByNameContaining(text);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Country> searchCountriesSorted(String text) {
         return countryRepository.findByNameContainingOrderByNameAsc(text);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Country> getCountriesStartingWith(String letter) {
         return countryRepository.findByNameStartingWith(letter);
     }
 
-    @Transactional
-    public void deleteCountry(String code) {
-        countryRepository.deleteById(code);
+    @Transactional(readOnly = true)
+    public List<Country> getAllCountriesNative() {
+        return countryRepository.getAllCountriesNative();
     }
 }

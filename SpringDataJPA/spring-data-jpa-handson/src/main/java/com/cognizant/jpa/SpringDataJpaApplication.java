@@ -37,9 +37,9 @@ public class SpringDataJpaApplication {
         // handsOn9DeleteCountry();
         // exercise5QueryMethods();
 
-        exercise6Mapping();
+        //exercise6Mapping();
 
-        // exercise7HQL();
+        exercise7HQL();
         // exercise8NativeQueries();
     }
 
@@ -159,6 +159,22 @@ public class SpringDataJpaApplication {
     }
 
     public static void exercise7HQL() {
+
+        System.out.println("\n===== HQL : Permanent Employees =====\n");
+
+        employeeService.getAllPermanentEmployees().forEach(employee -> {
+
+            System.out.println(employee);
+
+            System.out.println("\nDepartment");
+            System.out.println(employee.getDepartment());
+
+            System.out.println("\nSkills");
+
+            employee.getSkillList().forEach(System.out::println);
+
+            System.out.println("-------------------------------------");
+        });
     }
 
     public static void exercise8NativeQueries() {

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
@@ -15,6 +17,11 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public Employee get(int id) {
         return employeeRepository.getEmployee(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Employee> getAllPermanentEmployees() {
+        return employeeRepository.getAllPermanentEmployees();
     }
 
     @Transactional
